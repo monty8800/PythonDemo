@@ -22,7 +22,7 @@ else:
 # 简写,只要x是非零数值、非空字符串、非空list等，就判断为True，否则为False。
 x = 1
 if x:
-    print('True')
+    print('True') # True
 
 # 类型转换
 # s = input('birth: ')
@@ -31,7 +31,7 @@ birth = int(s)
 if birth < 2000:
     print('00前')
 else:
-    print('00后')
+    print('00后') # 00后
 
 # 练习：小明身高1.75，体重80.5kg。请根据BMI公式（体重除以身高的平方）帮小明计算他的BMI指数，并根据BMI指数：
 # 低于18.5：过轻
@@ -43,7 +43,8 @@ else:
 height = float(input('输入你的身高(cm):')) / 100
 weight = float(input('输入你的体重(kg):'))
 
-bmi = weight / pow(height, 2)
+# round(x,y) x值保留位小数
+bmi = round(weight / pow(height, 2),2)
 print(bmi)
 if bmi>32:
     print("严重肥胖")
