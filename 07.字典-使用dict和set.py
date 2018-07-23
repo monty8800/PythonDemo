@@ -77,6 +77,8 @@ print(a) # abc
 print(b) # zba - replace方法创建了一个新字符串'zbc'并返回，使用一个新的变量b来接收改变后的值
 
 
+print(tuple(range(1,4)))
+
 
 
 
