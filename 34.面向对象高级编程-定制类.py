@@ -156,9 +156,7 @@ class Chain(object):
 print(Chain().status.user.timeline.list) # /status/user/timeline/list
 
 # 无论API怎么变，SDK都可以根据URL实现完全动态的调用，而且，不随API的增加而改变！
-
 # 还有些REST API会把参数放到URL中，比如GitHub的API： GET /users/:user/repos
-
 # 调用时，需要把:user替换为实际用户名。如果我们能写出这样的链式调用：Chain().users('michael').repos 就可以非常方便地调用API了
 
 class Chain(object):
