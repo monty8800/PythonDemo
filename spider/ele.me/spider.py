@@ -1,49 +1,69 @@
 # 爬取国税系统所有知识文章 http://xt.szgs.gov.cn/Question/
 import requests
+import json
+import csv
+import time
+import codecs
+import os
 from bs4 import BeautifulSoup
 
-base_url = 'https://h5.ele.me/'
-
+base_url = "https://h5.ele.me"
+# 搜索关键字‘红包’，按销量排名
+path = '/restapi/shopping/v2/restaurants/search?offset={}&limit=15&keyword=%E7%BA%A2%E5%8C%85&latitude={}&longitude={}&search_item_type=3&is_rewrite=1&extras[]=activities&extras[]=coupon&terminal=h5&order_by=6'
 headers = {
-    'upgrade-insecure-requests': '1',
-    'cookie':'ubt_ssid=0aeuyg7ar52p3kc8td2p8plksylzgmbb_2018-08-04; _utrace=d0ed7898a6c5ee5ba351f4bcd23d647e_2018-08-04; perf_ssid=zu550jmlcternhzgzu6e7oq2k1sdh7pl_2018-08-04; track_id=1533394687|69e8ae981b261554daff710e506d757540f401e99783f0cb76|7b24e046f2b0e2dde8dd5948f8479923; USERID=23759892; SID=hWuI8SDc6TVMSMWRAMCcZspVPXtgy4z9XG9w',
-    'user-agent': 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.84 Mobile Safari/537.36'
+    'cookie': 'ubt_ssid=p8ux178znue5oupczjv9mk3ndgoxa7na_2018-08-03; _utrace=df32858c1487abc2271aaee84371fffa_2018-08-03; perf_ssid=hy0bqvheka8gl00ccfl7z7s67x6jbku8_2018-08-03; track_id=1533293647|a624ee9e9e171933ea2a5e3b75c9429a167a23789b31ff8c8c|bd7a821e180c6efd15378dfdbfe6199f; USERID=23759892; SID=Kqzj5UsVbp4BNDyQyfMY7uWY1xnqf8b3Gfjg',
+    'referer': 'https://h5.ele.me/search/',
+    'user-agent': 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Mobile Safari/537.36',
+    'x-shard': 'loc=106.563674,29.555986',
+    'x-accept-encoding': 'gzip, deflate, br',
+    'accept-language': 'zh-CN,zh;q=0.9,en;q=0.8'
 }
-question_result = requests.get(base_url)  # 请求页面内容
 
-soup = BeautifulSoup(question_result.content, 'lxml')
-print(soup)
 
-# pages_soup = soup.find('div', attrs={'class': 'page'})  # 获取页码
-# pages = pages_soup.find_all('a')  # 获取页码中的链接
-# max_page = pages[-1].get('href').split('page=')[-1]  # 获取最大页码，作为下面循环爬取的最大值
+# page_size:要爬取的页数,latitude:维度，longitude:经度
+def spider(page_size, latitude, longitude):
+    restaurant_list = []
+    for page in range(page_size):
+        new_path = str(path).format(page * 15, latitude, longitude)
+        # print(base_url + new_path)
+        print('第{}页:'.format(page + 1))
+        question_result = requests.get(base_url + new_path, headers=headers)  # 请求页面内容
+        result_json_str = question_result.content
 
-# for page in range(2, int(max_page) + 1):
-#     page_url = '%s?page=%s' % (url, page)  # 拼接单页的绝对地址
-#     print(page_url)
-#     page_question_result = requests.get(page_url)
-#     page_soup = BeautifulSoup(page_question_result.content, 'lxml')
-#     question_list = []  # 存储一页所有的详情
-#     kj = page_soup.find('div', attrs={'class': 'kj'})
-#     links = kj.find_all('a') # 获取一页中所有item的a标签
-#     print(links)
-#
-#     for link in links:  # 循环抓取每页的详情
-#         a = link.get('href') # 获取a标签中href的值
-#         text = link.text  # 获取到详情的相对地址
-#         detail = basr_url + a  # 拼接详情页面的绝对地址
-#         print(detail)
-#         detail_result = requests.get(detail) # 请求详情页
-#         detail_soup = BeautifulSoup(detail_result.content, 'lxml')
-#         articleContent = detail_soup.find('div', attrs={'class': 'articleContent'}) # 获取到详情页中class为articleContent的内容
-#         # articleContent_text = articleContent.text # 获取articleContent中的纯文本，取出其他所有标签
-#         question = { # 封装需要的内容
-#             'title': link.text,
-#             'url': basr_url + a,
-#             'content': articleContent.prettify()
-#         }
-#         question_list.append(question) # 将封装后的详情内容添加到当前页面集合中去
-#
-#     for question in question_list: # 爬取到一页数据并且封装完成之后，将当前列表中的所有详情写入到文件中
-#         with open('./doc/%s.txt' % question['title'].strip(), 'w') as fp:
-#             fp.write(question['content'])
+        result_json = json.loads(result_json_str)
+        # print(str(result_json))
+        insides = result_json['inside']['0']['restaurant_with_foods']
+
+        for inside in insides:
+            restaurant = inside['restaurant']
+            re = {
+                'name': restaurant['name'],
+                'address': restaurant['address'],
+                'phone': restaurant['phone'],
+                'recent_order_num': restaurant['recent_order_num'],
+                'promotion_info': restaurant['promotion_info']
+            }
+            print(restaurant['phone'])
+            restaurant_list.append(re)
+        # print(json.dumps(restaurant_list).encode('latin-1').decode('unicode_escape'))
+        save2csv(restaurant_list)
+        time.sleep(3)
+
+
+def save2csv(restaurant_list):
+    headers = ['name', 'address', 'phone', 'recent_order_num', 'promotion_info']
+    with open('ele.csv', 'w', newline='', encoding='utf_8_sig') as f:
+        f_csv = csv.DictWriter(f, headers)
+        f_csv.writeheader()
+        f_csv.writerows(restaurant_list)
+
+
+if __name__ == '__main__':
+    spider(2, 32.142969, 118.884871)
+# def unicode2utf8(text):
+#     if type(text) is bytes:
+#         return text.decode('unicode_escape')
+#     elif type(text) is str:
+#         return text.encode('latin-1').decode('unicode_escape')
+#     else:
+#         return text
