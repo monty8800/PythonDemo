@@ -1,35 +1,27 @@
-import os
-
 from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.ext.declarative import declarative_base
+from flask_login import LoginManager
 
 
-def create_app(test_config=None):
-    # create and configure the app
-    app = Flask(__name__, instance_relative_config=True)
-    app.config.from_mapping(
-        SECRET_KEY='dev',
-        DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
-    )
+#创建项目对象
+app = Flask(__name__)
+#加载配置文件内容
+app.config.from_object('flaskr.setting') #模块下的setting文件名，不用加py后缀
+app.config.from_envvar('FLASKR_SETTINGS') #环境变量，指向配置文件setting的路径
 
-    if test_config is None:
-        # load the instance config, if it exists, when not testing
-        app.config.from_pyfile('config.py', silent=True)
-    else:
-        # load the test config if passed in
-        app.config.from_mapping(test_config)
+#创建数据库对象
+db = SQLAlchemy(app)
 
-    # ensure the instance folder exists
-    try:
-        os.makedirs(app.instance_path)
-    except OSError:
-        pass
+from flaskr.model import User,Category
 
-    # a simple page that says hello
-    @app.route('/hello')
-    def hello():
-        return 'Hello, World!'
+from flaskr.controller import blog_manage
 
-    from . import db
-    db.init_app(app)
+login_manager = LoginManager()
+login_manager.init_app(app)
+print(login_manager)
+login_manager.login_view='login'
 
-    return app
+@login_manager.user_loader
+def load_user(user_id):
+    return db.session.query(User.User).filter_by(id=user_id).first()

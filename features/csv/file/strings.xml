@@ -1,0 +1,111 @@
+<resources>
+    <string name="app_name">library</string>
+    <string name="toast_network_error">网络故障,请检查网络连接是否正常</string>
+    <string name="desc_back">返回</string>
+    <string name="close">关闭</string>
+    <string name="yes">是</string>
+    <string name="no">否</string>
+
+    <!--公用-->
+    <string name="no_data">没有更多数据啦！</string>
+    <string name="department">部门</string>
+    <string name="maker">制单人</string>
+    <string name="business_type">业务类型</string>
+    <string name="src_bill_type">来源单据类型</string>
+    <string name="src_bill_date">来源单据日期</string>
+    <string name="src_bill_no">来源单据号</string>
+    <string name="supplier_out">客户</string>
+    <string name="supplier_in">供应商</string>
+    <string name="businesser">业务员</string>
+    <string name="money_type">币种</string>
+
+    <string name="reset">重置</string>
+    <string name="ok">确定</string>
+    <string name="hint_input">请输入编码或名称</string>
+    <string name="hint_bill_no">请输入单据号</string>
+    <string name="please_select">请选择</string>
+    <string name="all">全部</string>
+
+    <string name="list_head">表头</string>
+    <string name="list_body">表体</string>
+    <string name="list">列表</string>
+
+    <string name="hang">挂起</string>
+    <string name="unhang">解挂</string>
+    <string name="exit">退出</string>
+    <string name="save">保存</string>
+
+    <string name="barcode">条码</string>
+    <string name="inventory">物料</string>
+    <string name="amount">数量</string>
+    <string name="batchnum">批号</string>
+    <string name="product_date">生产日期</string>
+
+    <string name="link_defined">表体自定义项>></string>
+
+    <string name="audit">已审核</string>
+    <string name="unAudit">未审核</string>
+
+    <string name="click_delete">删除</string>
+    <string name="click_audit">审核</string>
+    <string name="click_unaudit">弃审</string>
+
+    <string name="select_all">全选</string>
+    <string name="un_select">反选</string>
+    <!--入库-->
+    <string name="receive_title">入库</string>
+
+    <string name="select">筛选</string>
+
+    <string name="receive_handler">处理人</string>
+    <string name="receive_statu">状态</string>
+    <string name="receive_myself">我自己</string>
+    <string name="receive_everyone">所有人</string>
+    <string name="receive_unhandle">待处理</string>
+    <string name="receive_entered">已入库</string>
+    <string name="receive_all">全部</string>
+    <string name="receive_purchase_in">采购入库</string>
+    <string name="receive_finish_in">产成品入库</string>
+    <string name="receive_other_in">其他入库</string>
+
+    <string name="receive_date_bill">单据日期</string>
+    <string name="receive_no_bill">单据号</string>
+    <string name="title_activity_test">TestActivity</string>
+
+
+    <!--装箱-->
+    <string name="sweepOut">扫出</string>
+
+    <string name="boxCode">箱码</string>
+    <string name="boxNumber">箱号</string>
+    <string name="cargoCode">货码</string>
+    <string name="batch">批号</string>
+    <string name="labelsNumber">标签数</string>
+
+
+    <!--拆包-->
+    <string name="printNewBarcode">打印新条码</string>
+    <string name="printOldBarcode">打印旧条码</string>
+    <string name="unpacking">拆包</string>
+    <string name="cancel">取消</string>
+
+
+    <string name="printBarcode">打印条码</string>
+
+    <string name="delivery_sale_out">销售出库</string>
+    <string name="delivery_materia_out">材料出库</string>
+    <string name="delivery_other_out">其他出库</string>
+
+    <string name="pos">货位</string>
+    <string name="out_pos">转出货位</string>
+    <string name="in_pos">转入货位</string>
+
+    <string name="tip_in">入</string>
+    <string name="tip_out">出</string>
+    <string name="tip_batch">批</string>
+    <string name="tip_cargo">位</string>
+    <string name="tip_inner">内</string>
+    <string name="tip_outer">外</string>
+    <string name="tip_pallet">托</string>
+
+</resources>
