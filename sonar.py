@@ -1,5 +1,4 @@
 __author__ = 'mwu'
-
 import os
 def printMenu():
     sonar_o = ['启动sonar', '停止sonar', '重启sonar']

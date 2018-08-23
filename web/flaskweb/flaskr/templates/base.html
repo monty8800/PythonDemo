@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='style.css') }}">
+    <meta charset="UTF-8">
+    {% if title %}
+        <title>{{ title }}</title>
+    {% else %}
+        <title>Welcome to Montyblog</title>
+    {% endif %}
+</head>
+<body>
+<div>Montyblog:
+    <a href="/index">Home</a>
+    <a href="/login">Login</a>
+</div>
+<hr>
+<div class="page">
+    <div class="metanav">
+        {% if not session.logged_in %}
+            <a href="{{ url_for('login') }}">log in</a>
+        {% else %}
+            <a href="{{ url_for('logout') }}">log out</a>
+        {% endif %}
+    </div>
+    {% for message in get_flashed_messages() %}
+        <div class=flash>{{ message }}</div>
+    {% endfor %}
+</div>
+
+{#在这个模板中，使用block控制语句来定义派生模板可以插入代码的位置。 block被赋予一个唯一的名称，派生的模板可以在提供其内容时进行引用。#}
+{% block body %}{% endblock %}
+</body>
+</html>
