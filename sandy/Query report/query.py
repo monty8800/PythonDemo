@@ -5,7 +5,7 @@ import operator
 
 ip = '47.91.110.186'
 username = 'root'
-password = 'KhJnWpvS9Q6OtN-4ysBcO4'
+password = ''
 
 ssh = paramiko.SSHClient()
 ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy)
