@@ -29,7 +29,7 @@ print(time.time()) # 1532480414.1633122
 # 方法一
 moment4 = time.time()
 moment5 = time.localtime(moment4) # 转换成时间数组
-print(time.strftime('%Y-%m-%d %H:%M:%S',moment5)) # 2018-07-25 09:02:23
+print(time.strftime('%Y-%m-%d %H:%M:%S %p',moment5)) # 2018-07-25 09:02:23
 
 # 方法二
 moment6 = datetime.datetime.utcfromtimestamp(moment4)
